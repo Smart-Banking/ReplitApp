@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt OCR & AI Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Tesseract.js for OCR -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@v2.1.1/dist/tesseract.min.js"></script>
+    <!-- OpenAI JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/openai@4.28.4/index.min.js"></script>
+    <!-- Feather Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Receipt OCR & AI Analysis</h1>
+        </header>
+
+        <main>
+            <section id="image-capture">
+                <h2>Step 1: Capture or Upload Receipt</h2>
+                <div class="button-group">
+                    <button id="camera-btn" class="btn primary">
+                        <i data-feather="camera"></i> Take Photo
+                    </button>
+                    <button id="upload-btn" class="btn secondary">
+                        <i data-feather="upload"></i> Upload Photo
+                    </button>
+                    <input type="file" id="file-input" accept="image/*" hidden>
+                </div>
+                
+                <div id="preview-container" class="hidden">
+                    <div class="image-preview">
+                        <img id="preview-image" alt="Receipt preview">
+                    </div>
+                    <div class="button-group">
+                        <button id="retake-btn" class="btn secondary">
+                            <i data-feather="refresh-cw"></i> Retake
+                        </button>
+                        <button id="process-btn" class="btn primary">
+                            <i data-feather="cpu"></i> Process Receipt
+                        </button>
+                    </div>
+                </div>
+
+                <div id="camera-container" class="hidden">
+                    <video id="camera-view" autoplay playsinline></video>
+                    <button id="capture-btn" class="btn primary">
+                        <i data-feather="camera"></i> Capture
+                    </button>
+                    <button id="cancel-camera-btn" class="btn secondary">
+                        <i data-feather="x"></i> Cancel
+                    </button>
+                </div>
+            </section>
+
+            <section id="ocr-result" class="hidden">
+                <h2>Step 2: Extracted Text</h2>
+                <div class="loading-indicator hidden" id="ocr-loading">
+                    <div class="spinner"></div>
+                    <p>Processing image...</p>
+                </div>
+                <div class="text-container">
+                    <textarea id="extracted-text" placeholder="Extracted text will appear here. You can edit if needed."></textarea>
+                </div>
+            </section>
+
+            <section id="ai-prompt" class="hidden">
+                <h2>Step 3: AI Analysis</h2>
+                <p class="helper-text">What would you like to know about this receipt?</p>
+                <div class="text-container">
+                    <textarea id="prompt-text" placeholder="Example: Summarize this receipt and calculate the total amount."></textarea>
+                </div>
+                <button id="analyze-btn" class="btn primary">
+                    <i data-feather="send"></i> Analyze with AI
+                </button>
+            </section>
+
+            <section id="ai-result" class="hidden">
+                <h2>Step 4: AI Analysis Result</h2>
+                <div class="loading-indicator hidden" id="ai-loading">
+                    <div class="spinner"></div>
+                    <p>Processing with AI...</p>
+                </div>
+                <div class="text-container">
+                    <div id="ai-response" class="ai-response"></div>
+                </div>
+                <button id="new-scan-btn" class="btn primary">
+                    <i data-feather="plus-circle"></i> New Scan
+                </button>
+            </section>
+        </main>
+
+        <footer>
+            <p>Receipt OCR & AI Analysis Tool</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
