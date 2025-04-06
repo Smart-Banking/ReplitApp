@@ -25,18 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const aiResponse = document.getElementById('ai-response');
     const newScanBtn = document.getElementById('new-scan-btn');
 
-    // OpenAI client initialization
-    // Note: Using CDN version which creates a global 'OpenAI' object
+    // OpenAI client initialization will happen later when analyzing with AI
     let openai = null;
-    try {
-        // The API key will be set later when user interacts with AI features
-        openai = new OpenAI({ 
-            apiKey: 'dummy',  // Will be replaced with env var
-            dangerouslyAllowBrowser: true // Required for browser usage
-        });
-    } catch (error) {
-        console.error('Error initializing OpenAI client:', error);
-    }
 
     // Variables to store data
     let stream = null;
