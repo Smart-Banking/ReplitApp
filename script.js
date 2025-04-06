@@ -25,8 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const aiResponse = document.getElementById('ai-response');
     const newScanBtn = document.getElementById('new-scan-btn');
 
-    // OpenAI client initialization will happen later when analyzing with AI
-    let openai = null;
+    // We'll use fetch API directly instead of OpenAI client library
 
     // Variables to store data
     let stream = null;
@@ -210,45 +209,47 @@ document.addEventListener('DOMContentLoaded', () => {
         aiLoading.classList.remove('hidden');
         
         try {
-            // Get the API key from environment or use a default for testing
-            // In a production environment, you'd get this from a secure source
-            // This will be replaced with the actual API key from environment variables
+            // Get the API key from environment
             const apiKey = getApiKey();
             
             if (!apiKey) {
                 throw new Error('OpenAI API ключът не е наличен.');
             }
             
-            // Use the OpenAI global object from the CDN
-            if (typeof OpenAI === 'undefined') {
-                throw new Error('OpenAI библиотеката не е заредена правилно.');
-            }
-            
-            // Initialize the OpenAI client
-            openai = new OpenAI({ 
-                apiKey: apiKey,
-                dangerouslyAllowBrowser: true
-            });
-            
             const finalPrompt = `Анализирай следния текст от касова бележка: ${text}\n\nИнструкции от потребителя: ${prompt}`;
             
-            const response = await openai.chat.completions.create({
-                model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-                messages: [
-                    { 
-                        role: "system", 
-                        content: "Вие сте полезен асистент, който анализира данни от касови бележки. Давайте ясни и кратки отговори на български език." 
-                    },
-                    { 
-                        role: "user", 
-                        content: finalPrompt 
-                    }
-                ],
-                max_tokens: 500,
+            // Directly use fetch API instead of OpenAI client library
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024
+                    messages: [
+                        { 
+                            role: "system", 
+                            content: "Вие сте полезен асистент, който анализира данни от касови бележки. Давайте ясни и кратки отговори на български език." 
+                        },
+                        { 
+                            role: "user", 
+                            content: finalPrompt 
+                        }
+                    ],
+                    max_tokens: 500
+                })
             });
             
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`API грешка: ${errorData.error?.message || response.statusText}`);
+            }
+            
+            const data = await response.json();
+            
             // Display the AI response
-            aiResponse.textContent = response.choices[0].message.content;
+            aiResponse.textContent = data.choices[0].message.content;
             
         } catch (error) {
             console.error('AI Analysis Error:', error);
