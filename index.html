@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt OCR & AI Analysis</title>
+    <title>OCR на касови бележки & AI анализ</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Tesseract.js for OCR -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@v2.1.1/dist/tesseract.min.js"></script>
@@ -15,18 +15,18 @@
 <body>
     <div class="container">
         <header>
-            <h1>Receipt OCR & AI Analysis</h1>
+            <h1>OCR на касови бележки <h1>Receipt OCR & AI Analysis</h1> AI анализ</h1>
         </header>
 
         <main>
             <section id="image-capture">
-                <h2>Step 1: Capture or Upload Receipt</h2>
+                <h2>Стъпка 1: Заснемане или Качване на Касова Бележка</h2>
                 <div class="button-group">
                     <button id="camera-btn" class="btn primary">
-                        <i data-feather="camera"></i> Take Photo
+                        <i data-feather="camera"></i> Снимай
                     </button>
                     <button id="upload-btn" class="btn secondary">
-                        <i data-feather="upload"></i> Upload Photo
+                        <i data-feather="upload"></i> Качи снимка
                     </button>
                     <input type="file" id="file-input" accept="image/*" hidden>
                 </div>
@@ -37,10 +37,10 @@
                     </div>
                     <div class="button-group">
                         <button id="retake-btn" class="btn secondary">
-                            <i data-feather="refresh-cw"></i> Retake
+                            <i data-feather="refresh-cw"></i> Снимай отново
                         </button>
                         <button id="process-btn" class="btn primary">
-                            <i data-feather="cpu"></i> Process Receipt
+                            <i data-feather="cpu"></i> Обработи бележка
                         </button>
                     </div>
                 </div>
@@ -48,33 +48,33 @@
                 <div id="camera-container" class="hidden">
                     <video id="camera-view" autoplay playsinline></video>
                     <button id="capture-btn" class="btn primary">
-                        <i data-feather="camera"></i> Capture
+                        <i data-feather="camera"></i> Заснеми
                     </button>
                     <button id="cancel-camera-btn" class="btn secondary">
-                        <i data-feather="x"></i> Cancel
+                        <i data-feather="x"></i> Отказ
                     </button>
                 </div>
             </section>
 
             <section id="ocr-result" class="hidden">
-                <h2>Step 2: Extracted Text</h2>
+                <h2>Стъпка 2: Разпознат текст</h2>
                 <div class="loading-indicator hidden" id="ocr-loading">
                     <div class="spinner"></div>
-                    <p>Processing image...</p>
+                    <p>Обработка на изображението...</p>
                 </div>
                 <div class="text-container">
-                    <textarea id="extracted-text" placeholder="Extracted text will appear here. You can edit if needed."></textarea>
+                    <textarea id="extracted-text" placeholder="Разпознатият текст ще се покаже тук. Можете да го редактирате, ако е необходимо."></textarea>
                 </div>
             </section>
 
             <section id="ai-prompt" class="hidden">
-                <h2>Step 3: AI Analysis</h2>
+                <h2>Стъпка 3: AI Анализ</h2>
                 <p class="helper-text">What would you like to know about this receipt?</p>
                 <div class="text-container">
                     <textarea id="prompt-text" placeholder="Example: Summarize this receipt and calculate the total amount."></textarea>
                 </div>
                 <button id="analyze-btn" class="btn primary">
-                    <i data-feather="send"></i> Analyze with AI
+                    <i data-feather="send"></i> Анализирай с AI
                 </button>
             </section>
 
@@ -82,7 +82,7 @@
                 <h2>Step 4: AI Analysis Result</h2>
                 <div class="loading-indicator hidden" id="ai-loading">
                     <div class="spinner"></div>
-                    <p>Processing with AI...</p>
+                    <p>Обработка с AI...</p>
                 </div>
                 <div class="text-container">
                     <div id="ai-response" class="ai-response"></div>

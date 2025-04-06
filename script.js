@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error('Error accessing camera:', error);
-            alert('Error accessing camera. Please ensure you have granted camera permissions.');
+            alert('Грешка при достъп до камерата. Моля, уверете се, че сте разрешили достъпа до камерата.');
         }
     }
 
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Check if the file is an image
         if (!file.type.match('image.*')) {
-            alert('Please select an image file.');
+            alert('Моля, изберете файл с изображение.');
             return;
         }
         
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function processImage() {
         if (!capturedImage) {
-            alert('Please capture or upload an image first.');
+            alert('Моля, първо заснемете или качете изображение.');
             return;
         }
         
@@ -175,8 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Initialize the worker
             await worker.load();
-            await worker.loadLanguage('eng');
-            await worker.initialize('eng');
+            await worker.loadLanguage('bul');
+            await worker.initialize('bul');
             
             // Run OCR on the captured image
             const result = await worker.recognize(capturedImage);
@@ -193,13 +193,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Set default prompt if empty
             if (!promptText.value) {
-                promptText.value = 'Please summarize this receipt and tell me the total amount spent.';
+                promptText.value = 'Моля, обобщи тази касова бележка и ми кажи колко е общата сума.';
             }
             
         } catch (error) {
             console.error('OCR Error:', error);
             ocrLoading.classList.add('hidden');
-            alert('Error processing image. Please try again with a clearer image.');
+            alert('Грешка при обработка на изображението. Моля, опитайте отново с по-ясна снимка.');
         }
     }
 
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const prompt = promptText.value;
         
         if (!text || !prompt) {
-            alert('Please make sure both text and prompt are provided.');
+            alert('Моля, уверете се, че и текстът, и въпросът са попълнени.');
             return;
         }
         
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const apiKey = getApiKey();
             
             if (!apiKey) {
-                throw new Error('OpenAI API key is not available.');
+                throw new Error('OpenAI API ключът не е наличен.');
             }
             
             // Update the API key
@@ -235,14 +235,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 dangerouslyAllowBrowser: true
             });
             
-            const finalPrompt = `Analyze the following receipt text: ${text}\n\nUser instructions: ${prompt}`;
+            const finalPrompt = `Анализирай следния текст от касова бележка: ${text}\n\nИнструкции от потребителя: ${prompt}`;
             
             const response = await openai.chat.completions.create({
                 model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
                 messages: [
                     { 
                         role: "system", 
-                        content: "You are a helpful assistant that analyzes receipt data. Provide clear, concise responses." 
+                        content: "Вие сте полезен асистент, който анализира данни от касови бележки. Давайте ясни и кратки отговори на български език." 
                     },
                     { 
                         role: "user", 
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error('AI Analysis Error:', error);
-            aiResponse.textContent = `Error: ${error.message || 'Failed to get AI response. Please check your API key and try again.'}`;
+            aiResponse.textContent = `Грешка: ${error.message || 'Неуспешно получаване на AI отговор. Моля проверете вашия API ключ и опитайте отново.'}`;
         } finally {
             aiLoading.classList.add('hidden');
         }
