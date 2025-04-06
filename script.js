@@ -219,7 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('OpenAI API ключът не е наличен.');
             }
             
-            // Update the API key
+            // Use the OpenAI global object from the CDN
+            if (typeof OpenAI === 'undefined') {
+                throw new Error('OpenAI библиотеката не е заредена правилно.');
+            }
+            
+            // Initialize the OpenAI client
             openai = new OpenAI({ 
                 apiKey: apiKey,
                 dangerouslyAllowBrowser: true
